@@ -37,6 +37,9 @@ class ABMNoteActivity : AppCompatActivity() {
         noteViewModel.resultUpdateNote.observe(this) { resutl ->
             finish()
         }
+        noteViewModel.resultDeleteNote.observe(this) { resutl ->
+            finish()
+        }
     }
 
     fun onClickSave(view: View) {
@@ -52,6 +55,12 @@ class ABMNoteActivity : AppCompatActivity() {
             note!!.title = binding.title.text.toString()
             note!!.message = binding.message.text.toString()
             noteViewModel.updateNote(note!!)
+        }
+    }
+
+    fun onClickDelete(view: View) {
+        if(note != null) {
+            noteViewModel.deleteNote(note!!)
         }
     }
 }

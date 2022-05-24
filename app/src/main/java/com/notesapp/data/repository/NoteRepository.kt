@@ -27,4 +27,9 @@ class NoteRepository(context: Context) {
         noteDao.update(note)
         return true
     }
+
+    suspend fun delete(note: Note): Boolean {
+        noteDao.delete(note)
+        return true
+    }
 }

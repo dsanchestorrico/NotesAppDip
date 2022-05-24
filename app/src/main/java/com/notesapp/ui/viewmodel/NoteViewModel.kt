@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.notesapp.data.entity.Note
+import com.notesapp.dominio.DeleteNote
 import com.notesapp.dominio.GetAllNotes
 import com.notesapp.dominio.InsertNote
 import com.notesapp.dominio.UpdateNote
@@ -15,10 +16,14 @@ class NoteViewModel: ViewModel() {
     lateinit var getAllNotes: GetAllNotes
     lateinit var insertsNote: InsertNote
     lateinit var updatedNote: UpdateNote
+    lateinit var deletedNote: DeleteNote
 
     val loading = MutableLiveData<Boolean>()
+
     val resultInsertNote = MutableLiveData<Boolean>()
     val resultUpdateNote = MutableLiveData<Boolean>()
+    val resultDeleteNote = MutableLiveData<Boolean>()
+
     val noteModel = MutableLiveData<Note>()
     val notesModel = MutableLiveData<MutableList<Note>>().apply { postValue(mutableListOf()) }
 
@@ -26,6 +31,7 @@ class NoteViewModel: ViewModel() {
         this.getAllNotes = GetAllNotes(context)
         this.insertsNote = InsertNote(context)
         this.updatedNote = UpdateNote(context)
+        this.deletedNote = DeleteNote(context)
     }
 
     fun getNotes() {
@@ -49,6 +55,13 @@ class NoteViewModel: ViewModel() {
         viewModelScope.launch {
             var result = updatedNote(note)
             resultUpdateNote.postValue(result)
+        }
+    }
+
+    fun deleteNote(note: Note) {
+        viewModelScope.launch {
+            var result = deletedNote(note)
+            resultDeleteNote.postValue(result)
         }
     }
 
